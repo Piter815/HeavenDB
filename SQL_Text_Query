@@ -1,0 +1,54 @@
+CREATE SCHEMA `heaven_db`;
+
+use heaven_db;
+
+create table if not exists heaven_db.courses (
+course_id smallint unsigned not null auto_increment,
+course_price decimal (7,2) not null,
+course_name varchar(40) not null,
+course_points smallint (5) not null,
+start_date DATE not null,
+end_date DATE not null,
+course_type varchar(40) not null,
+PRIMARY KEY (COURSE_ID)
+);
+
+create table if not exists heaven_db.employees (
+empl_id smallint unsigned not null auto_increment,
+empl_name varchar(40) not null,
+empl_surname varchar(40) not null,
+empl_start_date DATE not null,
+empl_PESEL smallint(11) not null,
+empl_phone varchar(40),
+empl_address varchar(40),
+primary key (empl_id)
+);
+
+create table if not exists heaven_db.students (
+student_id smallint unsigned not null auto_increment,
+student_name varchar(40) not null,
+student_surname varchar(40) not null,
+student_PESEL smallint(11) not null,
+student_phone varchar(40),
+student_address varchar(40),
+primary key (student_id)
+);
+
+create table if not exists heaven_db.departments (
+department_id smallint unsigned not null auto_increment,
+department_name varchar(40) not null,
+department_budget decimal (7,2) not null,
+department_adres varchar(40) not null,
+dpt_supervisor_id smallint unsigned not null,
+PRIMARY KEY (department_id),
+FOREIGN KEY (department_id) REFERENCES employees (empl_id)
+);
+
+create table if not exists heaven_db.scores (
+record_id smallint unsigned not null auto_increment,
+course_id smallint unsigned not null,
+score_date date not null,
+score_value smallint not null,
+primary KEY(record_id),
+foreign key (course_id) references courses (course_id)
+);
