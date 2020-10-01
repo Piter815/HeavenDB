@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, Sequence, Float, String, Date, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, Sequence, Float, String, Date, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
@@ -10,7 +10,7 @@ class Department(Base):
     __tablename__ = "departments"
     department_id = Column(Integer, Sequence("departments_id_seq"), primary_key=True)
     department_name = Column(String(40))
-    department_budget = Column(Float)
+    department_budget = Column(Numeric(7,2))
     department_address = Column(String(40))
     dpt_supervisor_id = Column(Integer, ForeignKey('employees.empl_id'))
 
@@ -26,7 +26,7 @@ class Score(Base):
 class Course(Base):
     __tablename__ = "courses"
     course_id = Column(Integer, Sequence("courses_id_seq"), primary_key=True)
-    course_price = Column(Float)
+    course_price = Column(Numeric(7,2))
     course_name = Column(String(40))
     course_points = Column(Integer)
     start_date = Column(Date)
