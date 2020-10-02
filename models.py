@@ -48,7 +48,7 @@ class Employee(Base):
     empl_address = Column(String(40))
 
     departments = relationship('Department', back_populates='employees')
-
+    course = relationship("Course", back_populates='employees')
 
 class Student(Base):
     __tablename__ = "students"
@@ -69,6 +69,8 @@ association_table = Table('association', Base.metadata,
 Course.students = relationship("Student",
                         secondary=association_table,
                         back_populates="courses")
+
+Course.employees = relationship("Employee", back_populates='courses')
 
 Student.courses = relationship("Course",
         secondary=association_table,
