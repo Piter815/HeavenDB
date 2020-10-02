@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, Sequence, Float, String, Date, ForeignKey, Numeric
+from sqlalchemy import create_engine, Column, Integer, Sequence, Float, String, Date, ForeignKey, Numeric, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
@@ -32,6 +32,7 @@ class Course(Base):
     start_date = Column(Date)
     end_date = Column(Date)
     course_type = Column(String(40))
+    course_teacher = Column(Integer, ForeignKey('employees.empl_id'))
 
     scores = relationship('Score', back_populates='courses')
 
@@ -59,13 +60,28 @@ class Student(Base):
     student_address = Column(String(40))
 
 
-Department.employees = relationship(
+
+association_table = Table('association', Base.metadata,
+    Column('course_id', Integer, ForeignKey('courses.course_id')),
+    Column('student_id', Integer, ForeignKey('students.student_id'))
+)
+
+Course.students = relationship("Student",
+                        secondary=association_table,
+                        back_populates="courses")
+
+Student.courses = relationship("Course",
+        secondary=association_table,
+        back_populates="students")
+
+
+Department.employee = relationship(
     'Employee',
     order_by=Employee.empl_id,
     back_populates='departments'
 )
 
-Score.courses = relationship(
+Score.course = relationship(
     'Course',
     order_by=Course.course_id,
     back_populates='scores'
