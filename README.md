@@ -1,4 +1,5 @@
 # HeavenDB
+heavenDB.png - DB model schematic in .png
 
 models.py - main sql alchemy file
 HeavenDB.db - DB created with sql alchemy
